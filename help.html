@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Help for the calculator</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h2>Help for the Irish Number Renderer</h2>
+        <p>This page lets users enter a number and see how it would be rendered in
+            words in Irish.  Currently four types of numbers are supported:</p>
+        <ol><li>Abstract numbers: Numbers used in sequences and arithmetic.</li>
+            <li>Object numbers: Numbers used to count things.</li>
+            <li>Personal numbers: Numbers used to count people.  These revert to object numbers for 11 or numbers greater than 12.</li>
+            <li>Ordinal numbers:  Numbers used to sequence people or things.</li></ol>
+        <p>
+            This corresponds to sections 9.2-9.5 in the 
+            <a href='https://data.oireachtas.ie/ie/oireachtas/caighdeanOifigiul/2017/2017-08-03_an-caighdean-oifigiuil-2017_en.pdf'>Caighdean Oifigiul</a>,
+            and except as noted below the program attempts to faithfully
+        reproduce the rules as given there.</p>
+        <p>Future versions will accommodate decimal numbers and fractions as discussed in 9.6 and 9.7.</p>
+        <h3> Form values </h3>
+        Users simply enter the number for which the word equivalent is desired.  As the number is entered, the
+        rendered text will automatically update below the form.  If there are any warnings they will follow the rendered text and
+        should be self explanatory.
+        If there is an error (e.g., the number cannot be parsed), the error text will be shown instead.  
+        <p>The context of the number (i.e., the type as described above) is specified in a selection box.  Simply click on
+            the desired option.</p>
+        <p> The noun to which the number is to be applied may also be specified.  
+        Normally a noun is expected for Object and Ordinal numbers.  A
+        noun is optional for personal numbers, and is usually not expected for abstract numbers.  However the program will allow a noun to be
+        specified or omitted in all contexts.  It will simply follow the number for abstract numbers, and be omitted where it should appear if not provided
+        for in the other types.</p>
+        <p>The only other field in the form is used to control the format of the numbers produced.  Abstract and object numbers have two different formats
+            for rendering for values greater than 10,000 and 20 respectively.  There is a traditional format and a modern/simplified format.  The traditional
+            format for abstract numbers uses the object format for all but the lowest order triplet, while the 'simple' form uses the same format for
+            all triplets and never lenites or uru's the units associated with high order triplets.  Only numbers above 10,000 may use the traditional format.
+            The simplified format for object numbers basically uses the simple form for abstract numbers and places the noun at the end.  It may only be used
+            for numbers greater than 20.
+        </p><p>
+            If the number is above these minimums and is also greater than
+            the value entered in the simple format box, then the number will be rendered in the simpler format.  Otherwise the more traditional format will
+            be used.  If there is a zero or negative value in this box it is treated as infinity, so that all numbers will use the traditional formats.
+         </p><p>This box should have
+            no effect on ordinal numbers.
+        <p>
+        <h3> Limits </h3>
+        Only integer numbers with absolute values less than 10<sup>24</sup>can be rendered.  This limit arises from a lack of words
+        corresponding to septillion or greater in Irish, but it would be easy to extend to at least 10<sup>33</sup> (corresponding to
+        decillions) or above by transliterating the appropriate words in English.  Both positive and negative values are allowed.
+        <p/>
+        There are a few modifications to the strict adherence to the Caighdean Oifigiul.  
+       <ul><li>The word <i>naidu</i> is invented as an equivalent to
+        zero'th which is now in use in English in programming contexts where counting starting with 0 is common.
+        </li>
+        <li>Under strict rules the word <i>billiun</i> would sometimes be subject to eclipsis which would render it sounding
+            the same as <i>milliun</i>.  To avoid this ambiguity we never eclipse this word (though it is lenited as needed).</li>
+        <li>The rules for where a noun is placed in words where the lowest order triplet is 0 and the lowest order non-zero triplet modulo 100 is between
+            11 and 19 are unclear (to me at least).  
+            E.g., is <i>516,000u bean</i> to be rendered as: <i>cuig chead se mhiliu bean deag</i>, <i>cuig chead se mhiliu deag bean</i> or
+            <i>cuig chead se deag miliu bean</i>?  This program chooses the first under the rationale that we treat the <i>miliu bean</i> as a kind of compound noun.
+            However there are no examples in the standard that address this.  Clarification of this point would be very much appreciated!
+       </ul>
+        <h3>Implementation </h3>
+        <p>
+            This tool is implemented entirely in JavaScript and uses no external resources.  A copy of elements of the dictionary used in teanglann.ie is
+            included for some grammar issues.  The program splits the number into digit triplets, reflecting how numbers are rendered in Irish (and English).
+            Each triplet is rendered reasonably independently though we let each triplet know its order and if it is the first non-zero and highest order triplet.
+            Triplets with all 0's are ignored except for the value 0 itself.            
+        <p>
+            Within each triplet the numbers 0/1/2 are first handled.  There are many special cases addressed here.  Then the numbers 3-99 are looked at and 
+            finally three digit values, 100-999.  The three-digit analysis mostly just prepends an appropriate string to the two-digit values.  The 3-99 range is handled
+            as a set of ranges: 3-9, 10, 11-19, 20/30/40/..., 2x/3x/4x/.... In the last there are some special cases for x=1.
+        </p>
+        <p>
+            The user interface is a simple React interface using controlled components.  It would be nice to have a Web services version which returned JSON or XML.         
+        </p>
+        <h3>Acknowledgements, Copyright and Comments</h3>
+        <p>Many thanks to the writers of the Caighdean Oifigiul for their guidance in describing the rules for Irish numbers.  I would also like to
+        thank the developers of teanglann.ie and BuNoMa database.  A JSON version of their nouns database is used
+        in this code for finding the gender and genitive plurals of nouns.
+        </p>
+        <p>No copyright is asserted for this code nor is any warranty provided.  This was written as personal project and
+           anyone may copy or use this code for any purpose.  Acknowledgement is appreciated but not required.
+        </p>
+        <p>If you see a problem or have a suggestion for a new feature please feel free to write me at
+        irishnumbers at mcglynns dot org.  I hope you have fun with this.  </p><p>Tom McGlynn, Catonsville, Maryland, USA. February 8, 2024</p>
+    </body>
+</html>
