@@ -8,7 +8,7 @@
     <body>
         <h2>Help for the Irish Number Renderer</h2>
         <p>This page lets users enter a number and see how it would be rendered in
-            words in Irish.  Currently five types of numbers are supported:</p>
+            words in Irish.  All types of numbers are supported</p>
         <ol><li>Abstract numbers: Numbers used in sequences and arithmetic.</li>
             <li>Object numbers: Numbers used to count things.</li>
             <li>Personal numbers: Numbers used to count people.  These revert to object numbers for 11 or numbers greater than 12.</li>
@@ -18,7 +18,7 @@
         </ol>
         <p>
             This corresponds to sections chapter 9 in the 
-            <a href='https://data.oireachtas.ie/ie/oireachtas/caighdeanOifigiul/2017/2017-08-03_an-caighdean-oifigiuil-2017_en.pdf'>Caighdean Oifigiul</a>,
+            <a href='https://data.oireachtas.ie/ie/oireachtas/caighdeanOifigiul/2017/2017-08-03_an-caighdean-oifigiuil-2017_en.pdf'>Caighdeán Oifigiúil</a>,
             and except as noted below the program attempts to faithfully
         reproduce the rules as given there.</p>
         <h3> Form values </h3>
@@ -28,8 +28,8 @@
         should be self explanatory.
         <p>
             If there is an error (e.g., the number is too large), the error text will be shown instead. </p> 
-        <h4>Context of the number<h4>
-        <p>The context of the number (i.e., the type as described above) is specified in a selection box.  Simply click on
+        <h4>Context of the number</h4>
+        <p>The context of the number (i.e., the type as described above) is specified in a selection box for most types.  Simply click on
             the desired option. 
         </p><p>
         This selection is ignored for decimal numbers.  Decimal numbers are selected by entering a decimal in the number string.  In this case the
@@ -39,15 +39,17 @@
         Fractional values are used when a "/" is seen in the number string.  There are many options given in the standard for fractional values.  This program
         usually uses the preposition <i>ar</i> between two abstract integer values to represent the a fraction.  This form is recommended by the standard
         as the most common form for fractions (9.6.1.e).  When the denominator can be
-        expressed as a single word, i.e., denominators less than 20, 20,30, ... and the values 100, 1000, 1000000, ....  In those case the fraction is expressed as
+        expressed as a single word, i.e., denominators less than 20, the numbers 20,30, ... and the values 100, 1000, 1000000, ....  In those case the fraction is expressed as
         an object number when the 'object' is the denominator.  E.g., <i>seacht leith</i> for 7/2.  Although this is explicitly shown, this may be somewhat
         ambiguous.  E.g., it seems like <i>naoi gcéadú</i> may be interpreted as either 9/100 (as given as an explicit example in the standard) or 1/900.
         </p>
+        <h4> The noun </h4>
         <p> The noun to which the number is to be applied may also be specified.   The nominative singular form of the noun should be given. 
         Normally a noun is expected for Object and Ordinal numbers.  A
-        noun is optional for personal numbers, and is usually not expected for abstract numbers.  However the program will allow a noun to be
+        noun is optional for personal numbers, and is often not needed for abstract or decimal numbers and fractions.  However the program will allow a noun to be
         specified or omitted in all contexts.  It will simply follow the number for abstract numbers, and be omitted where it should appear if not provided
         for in the other types.</p>
+        <h4> Selecting simple or traditional formats </h4>
         <p>The only other field in the form is used to control the format of the numbers produced.  Abstract and object numbers have two different formats
             for rendering for values greater than 10,000 and 20 respectively.  There is a traditional format and a modern/simplified format.  The traditional
             format for abstract numbers uses the object format for all but the lowest order triplet, while the 'simple' form uses the same format for
@@ -57,28 +59,28 @@
             all of which are 0, e.g., 16,000 or 13,000,000,000.
         </p>
         <p>This box should have
-            no effect on ordinal numbers.  Personal numbers are treated as object numbers for numbers above 12.
+            no effect on ordinal numbers, decimals or fractions.  Personal numbers are treated as object numbers for numbers above 12.
         <p>
         <h3> Limits </h3>
         Only integer numbers with absolute values less than 10<sup>24</sup>can be rendered.  This limit arises from a lack of words
         corresponding to septillion or greater in Irish, but it would be easy to extend to at least 10<sup>33</sup> (corresponding to
         decillions) or above by transliterating the appropriate words in English.  Both positive and negative values are allowed.
         <p/>
-        There are a few modifications to the strict adherence to the Caighdean Oifigiul.  
-       <ul><li>The word <i>naidiu</i> is invented as an equivalent to
+        There are a few modifications to the strict adherence to the Caighdeán Oifigiúil.  
+       <ul><li>The word <i>naidiú</i> is invented as an equivalent to
         zero'th which is now in use in English in programming contexts where counting starting with 0 is common.
         </li>
-        <li>Under strict rules the word <i>billiun</i> would sometimes be subject to eclipsis which would render it sounding
-            the same as <i>milliun</i>.  To avoid this ambiguity we never eclipse this word (though it is lenited as needed).  E.g., 
+        <li>Under strict rules the word <i>billiún</i> would sometimes be subject to eclipsis which would render it sounding
+            the same as <i>milliún</i>.  To avoid this ambiguity we never eclipse this word (though it is lenited as needed).  E.g., 
             the standard requires
-            <i>deich mbilliun</i> versus <i>deich milliun</i>.  However this program render 10,000,000,000 as <i>deich billiun</i>, 
+            <i>deich mbilliún</i> versus <i>deich milliún</i>.  However this program renders 10,000,000,000 as <i>deich billiún</i>, 
             explicitly contradictory to the standard.
         <li>The rules for where a noun is placed in words where the lowest order triplet is 0 and the lowest order non-zero triplet modulo 100 is between
             11 and 19 are unclear (to me at least).  
-            E.g., is <i>516,000u bean</i> to be rendered as: <i>cuig chead se mhiliu bean deag</i>, <i>cuig chead se mhiliu deag bean</i> or
-            <i>cuig chead se deag miliu bean</i>?  This program chooses the first under the rationale that we treat the <i>miliu bean</i> as a kind of compound noun.
+            E.g., is <i>516,000ú bean</i> to be rendered as: <i>cúig chéad sé mhíliú bean déag</i>, <i>cúig chéad sé mhíliú déag bean</i> or
+            <i>cúig chéad sé déag miliú bean</i>?  This program chooses the first under the rationale that we treat the <i> míliú bean</i> as a kind of compound noun.
             However there are no examples in the standard that address this.  Clarification of this point would be very much appreciated!
-        <li>There are a number of situations in which there are multiple valid forms.  E.g., dara verus dou, daichead versus ceathaireacha and
+        <li>There are a number of situations in which there are multiple valid forms.  E.g., dara verus dóú, daichead versus ceathaireacha and
             the treatment of values one greater than a multiple of 10.  Only one of these forms is shown.
        </ul>
         <h3>Implementation </h3>
@@ -93,7 +95,7 @@
             as a set of ranges: 3-9, 10, 11-19, 20/30/40/..., 2x/3x/4x/.... In the last there are some special cases for x=1.
         </p>
         <p>
-            The user interface is a simple React interface using controlled components.  It would be nice to have a Web services version which returned JSON or XML.         
+            The user interface is a simple React interface using controlled components.  It can be invoked programmatrically, but no JSON or XML format can be produced.         
         </p>
         <h3>Use with arguments.</h3>
         Arguments may be appended to the URL to provide a specific initialization to the form. Each argument may be specified using either an English or Irish key word
@@ -105,7 +107,7 @@
                 <tr><td> number/uimhir</td><td>The number to be rendered</td></tr>
                 <tr><td> context/cineal</td><td> The kind of number to be rendered </td></tr>
                 <tr><td> noun/ainmfhocal</td><td>The noun to be associated with the number </td></tr>
-                <tr><td> simple/simplithe</td><td>Use simple version where allowed </td></tr>                            
+                <tr><td> simple/simplithe</td><td>Use simple format where allowed </td></tr>                            
             </tbody>
         </table>
         <br/>
@@ -119,13 +121,13 @@
         arguments to give the result <i>an dara bean</i>.
         
         <h3>Acknowledgements, Copyright and Comments</h3>
-        <p>Many thanks to the writers of the Caighdean Oifigiul for their guidance in describing the rules for Irish numbers.  I would also like to
-        thank the developers of teanglann.ie and BuNoMa database.  A JSON version of their nouns database is used
+        <p>Many thanks to the writers of the Caighdeán Oifigiúil for their guidance in describing the rules for Irish numbers.  I would also like to
+        thank the developers of teanglann.ie and BuNaMo database.  A JSON version of their nouns database is used
         in this code for finding genitive plurals of nouns.
         </p>
         <p>No copyright is asserted for this code nor is any warranty provided. </p> 
         <p>This was written as personal project and
-           anyone may copy or use this code for any purpose.  Acknowledgement is appreciated but not required.  The current version of this
+           anyone may copy or use this code for any purpose.  Acknowledgement is appreciated but not required.  The current source code version of this
            project is available in <a href="https://github.com/uimhir/IrishNumbers">GIThub</a>.
         </p>
         <p>If you see a problem or have a suggestion for a new feature please feel free to write me at
